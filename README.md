@@ -1,1 +1,1 @@
-# directioncosines codes written in standard Python. None work correctly
+# directioncosines codes written in standard Python importing the math package. None work correctly.
