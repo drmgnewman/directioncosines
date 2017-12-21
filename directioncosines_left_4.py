@@ -115,13 +115,34 @@ def main():
                - beta[1] * bgbj * bi[2] + beta[2] * bgbi * bj[2],
                gamma[1] * bobj * bobk * bi[3] + gamma[2] * bobk * bobi * bj[3] + gamma[3] * bobi * bobj * bk[3]
                - beta[1] * bgbj * bi[3] + beta[2] * bgbi * bj[3]]
-    oj = o
-    bomegaj = bomega
-    ot = [o]
-    bomegat = [bomega]
-    bit = [bi]
-    bjt = [bj]
-    bkt = [bk]
+    oj = o.copy()
+    bomegaj = bomega.copy()
+    ot = [[[ 0.0 for j in range(4)] for i in range(4)] for k in range(nt + 1)]
+    ot[0][1][1] = o[1][1]
+    ot[0][2][1] = o[2][1]
+    ot[0][3][1] = o[3][1]
+    ot[0][1][2] = o[1][2]
+    ot[0][2][2] = o[2][2]
+    ot[0][3][2] = o[3][2]
+    ot[0][1][3] = o[1][3]
+    ot[0][2][3] = o[2][3]
+    ot[0][3][3] = o[3][3]
+    bomegat = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bomegat[0][1] = bomega[1]
+    bomegat[0][2] = bomega[2]
+    bomegat[0][3] = bomega[3]
+    bit = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bit[0][1] = bi[1]
+    bit[0][2] = bi[2]
+    bit[0][3] = bi[3]
+    bjt = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bjt[0][1] = bj[1]
+    bjt[0][2] = bj[2]
+    bjt[0][3] = bj[3]
+    bkt = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bkt[0][1] = bk[1]
+    bkt[0][2] = bk[2]
+    bkt[0][3] = bk[3]
     for k in range(1, nt + 1, 1):
         for j in range(1, ns // nt + 1, 1):
             nj = ns // nt * (k - 1) + j - 1
@@ -136,7 +157,7 @@ def main():
                    [0.0, bomega[1] * o[2][1] - bomega[2] * o[1][1],
                     bomega[1] * o[2][2] - bomega[2] * o[1][2],
                     bomega[1] * o[2][3] - bomega[2] * o[1][3]]]
-            fomega1 = dbomega
+            fomega1 = dbomega.copy()
             o[1][1] = oj[1][1] + deltat * fo1[1][1] / 2.0
             o[2][1] = oj[2][1] + deltat * fo1[2][1] / 2.0
             o[3][1] = oj[3][1] + deltat * fo1[3][1] / 2.0
@@ -175,7 +196,7 @@ def main():
                    [0.0, bomega[1] * o[2][1] - bomega[2] * o[1][1],
                     bomega[1] * o[2][2] - bomega[2] * o[1][2],
                     bomega[1] * o[2][3] - bomega[2] * o[1][3]]]
-            fomega2 = dbomega
+            fomega2 = dbomega.copy()
             o[1][1] = oj[1][1] + deltat * fo2[1][1] / 2.0
             o[2][1] = oj[2][1] + deltat * fo2[2][1] / 2.0
             o[3][1] = oj[3][1] + deltat * fo2[3][1] / 2.0
@@ -214,7 +235,7 @@ def main():
                    [0.0, bomega[1] * o[2][1] - bomega[2] * o[1][1],
                     bomega[1] * o[2][2] - bomega[2] * o[1][2],
                     bomega[1] * o[2][3] - bomega[2] * o[1][3]]]
-            fomega3 = dbomega
+            fomega3 = dbomega.copy()
             o[1][1] = oj[1][1] + deltat * fo3[1][1]
             o[2][1] = oj[2][1] + deltat * fo3[2][1]
             o[3][1] = oj[3][1] + deltat * fo3[3][1]
@@ -253,7 +274,7 @@ def main():
                    [0.0, bomega[1] * o[2][1] - bomega[2] * o[1][1],
                     bomega[1] * o[2][2] - bomega[2] * o[1][2],
                     bomega[1] * o[2][3] - bomega[2] * o[1][3]]]
-            fomega4 = dbomega
+            fomega4 = dbomega.copy()
             o[1][1] = oj[1][1] + deltat * (fo1[1][1] + 2.0 * fo2[1][1] + 2.0 * fo3[1][1] + fo4[1][1]) / 6.0
             o[2][1] = oj[2][1] + deltat * (fo1[2][1] + 2.0 * fo2[2][1] + 2.0 * fo3[2][1] + fo4[2][1]) / 6.0
             o[3][1] = oj[3][1] + deltat * (fo1[3][1] + 2.0 * fo2[3][1] + 2.0 * fo3[3][1] + fo4[3][1]) / 6.0
@@ -282,13 +303,29 @@ def main():
                        - beta[1] * bgbj * bi[2] + beta[2] * bgbi * bj[2],
                        gamma[1] * bobj * bobk * bi[3] + gamma[2] * bobk * bobi * bj[3] + gamma[3] * bobi * bobj * bk[3]
                        - beta[1] * bgbj * bi[3] + beta[2] * bgbi * bj[3]]
-            oj = o
-            bomegaj = bomega
-        ot.append(o)
-        bomegat.append(bomega)
-        bit.append(bi)
-        bjt.append(bj)
-        bkt.append(bk)
+            oj = o.copy()
+            bomegaj = bomega.copy()
+        ot[k][1][1] = o[1][1]
+        ot[k][2][1] = o[2][1]
+        ot[k][3][1] = o[3][1]
+        ot[k][1][2] = o[1][2]
+        ot[k][2][2] = o[2][2]
+        ot[k][3][2] = o[3][2]
+        ot[k][1][3] = o[1][3]
+        ot[k][2][3] = o[2][3]
+        ot[k][3][3] = o[3][3]
+        bomegat[k][1] = bomega[1]
+        bomegat[k][2] = bomega[2]
+        bomegat[k][3] = bomega[3]
+        bit[k][1] = bi[1]
+        bit[k][2] = bi[2]
+        bit[k][3] = bi[3]
+        bjt[k][1] = bj[1]
+        bjt[k][2] = bj[2]
+        bjt[k][3] = bj[3]
+        bkt[k][1] = bk[1]
+        bkt[k][2] = bk[2]
+        bkt[k][3] = bk[3]
         print("%7u%3c%- 22.15e" % (nj + 1, ' ', time[nj + 1]))
     unit1 = open("dc_l_4_primary.out", "w")
     unit2 = open("dc_l_4_secondary.out", "w")

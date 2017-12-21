@@ -1,4 +1,4 @@
-# Direction Cosines Left Angular Velocity 1 Program in Python.
+# Direction Cosines Right Angular Velocity 1 Program in Python.
 # Calculates the Numerical Approximation of the Motion of a 3-D Gyroscopic Pendulum
 # Using 1st-Order Runge-Kutta Method (Euler Method).
 
@@ -109,13 +109,34 @@ def main():
               gamma[1] * omega[2] * omega[3] - beta[1] * bgbj,
               gamma[2] * omega[3] * omega[1] + beta[2] * bgbi,
               gamma[3] * omega[1] * omega[2]]
-    oj = o
-    omegaj = omega
-    ot = [o]
-    omegat = [omega]
-    bit = [bi]
-    bjt = [bj]
-    bkt = [bk]
+    oj = o.copy()
+    omegaj = omega.copy()
+    ot = [[[ 0.0 for j in range(4)] for i in range(4)] for k in range(nt + 1)]
+    ot[0][1][1] = o[1][1]
+    ot[0][2][1] = o[2][1]
+    ot[0][3][1] = o[3][1]
+    ot[0][1][2] = o[1][2]
+    ot[0][2][2] = o[2][2]
+    ot[0][3][2] = o[3][2]
+    ot[0][1][3] = o[1][3]
+    ot[0][2][3] = o[2][3]
+    ot[0][3][3] = o[3][3]
+    omegat = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    omegat[0][1] = omega[1]
+    omegat[0][2] = omega[2]
+    omegat[0][3] = omega[3]
+    bit = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bit[0][1] = bi[1]
+    bit[0][2] = bi[2]
+    bit[0][3] = bi[3]
+    bjt = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bjt[0][1] = bj[1]
+    bjt[0][2] = bj[2]
+    bjt[0][3] = bj[3]
+    bkt = [[ 0.0 for i in range(4)] for k in range(nt + 1)]
+    bkt[0][1] = bk[1]
+    bkt[0][2] = bk[2]
+    bkt[0][3] = bk[3]
     for k in range(1, nt + 1, 1):
         for j in range(1, ns // nt + 1, 1):
             nj = ns // nt * (k - 1) + j - 1
@@ -130,7 +151,7 @@ def main():
                    [0.0, o[3][2] * omega[3] - o[3][3] * omega[2],
                     o[3][3] * omega[1] - o[3][1] * omega[3],
                     o[3][1] * omega[2] - o[3][2] * omega[1]]]
-            fomega1 = domega
+            fomega1 = domega.copy()
             o[1][1] = oj[1][1] + deltat * fo1[1][1]
             o[2][1] = oj[2][1] + deltat * fo1[2][1]
             o[3][1] = oj[3][1] + deltat * fo1[3][1]
@@ -153,13 +174,29 @@ def main():
                       gamma[1] * omega[2] * omega[3] - beta[1] * bgbj,
                       gamma[2] * omega[3] * omega[1] + beta[2] * bgbi,
                       gamma[3] * omega[1] * omega[2]]
-            oj = o
-            omegaj = omega
-        ot.append(o)
-        omegat.append(omega)
-        bit.append(bi)
-        bjt.append(bj)
-        bkt.append(bk)
+            oj = o.copy()
+            omegaj = omega.copy()
+        ot[k][1][1] = o[1][1]
+        ot[k][2][1] = o[2][1]
+        ot[k][3][1] = o[3][1]
+        ot[k][1][2] = o[1][2]
+        ot[k][2][2] = o[2][2]
+        ot[k][3][2] = o[3][2]
+        ot[k][1][3] = o[1][3]
+        ot[k][2][3] = o[2][3]
+        ot[k][3][3] = o[3][3]
+        omegat[k][1] = omega[1]
+        omegat[k][2] = omega[2]
+        omegat[k][3] = omega[3]
+        bit[k][1] = bi[1]
+        bit[k][2] = bi[2]
+        bit[k][3] = bi[3]
+        bjt[k][1] = bj[1]
+        bjt[k][2] = bj[2]
+        bjt[k][3] = bj[3]
+        bkt[k][1] = bk[1]
+        bkt[k][2] = bk[2]
+        bkt[k][3] = bk[3]
         print("%7u%3c%- 22.15e" % (nj + 1, ' ', time[nj + 1]))
     unit1 = open("dc_r_1_primary.out", "w")
     unit2 = open("dc_r_1_secondary.out", "w")
